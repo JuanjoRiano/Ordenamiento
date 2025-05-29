@@ -179,6 +179,5 @@ def ejecutar_pruebas():
     print("\nESTADO FINAL DE LA TABLA")
     mostrar_tabla()
 
-# Ejecutamos el programa principal
 if __name__ == "__main__":
     ejecutar_pruebas()
