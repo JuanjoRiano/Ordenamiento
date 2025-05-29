@@ -2,6 +2,8 @@ package ejercicio1;
 
 import java.util.Random;
 import java.util.LinkedList;
+import java.util.Collections;
+import java.util.Comparator;
 
 class Venta {
     int codigoProducto;
@@ -23,14 +25,12 @@ public class Main {
         public ListaVentas() {
             this.ventas = new LinkedList<>();
         }
-        
 
         public void agregarVenta(int codigoProducto, int cantidadVendida, double precioVenta) {
             Venta nuevaVenta = new Venta(codigoProducto, cantidadVendida, precioVenta);
             ventas.add(nuevaVenta);
         }
     }
-    
 
     public static void poblarDatos(ListaVentas lista) {
         Random rand = new Random();
@@ -49,7 +49,6 @@ public class Main {
             lista.agregarVenta(codigoProducto, cantidadVendida, precioVenta);
         }
     }
-    
 
     public static void mostrarDatos(ListaVentas lista) {
         if (lista.ventas.isEmpty()) {
@@ -69,7 +68,6 @@ public class Main {
         }
         System.out.println("===================================================");
     }
-    
 
     public static void sumaVentas(ListaVentas listaEntrada, ListaVentas listaSalida) {
         if (listaEntrada.ventas.isEmpty()) {
@@ -94,11 +92,9 @@ public class Main {
         int contadorProductos = 0;
         
         for (Venta venta : listaEntrada.ventas) {
-
             boolean encontrado = false;
             for (int i = 0; i < contadorProductos; i++) {
                 if (productosTotalizados[i].codigo == venta.codigoProducto) {
-
                     productosTotalizados[i].cantidadTotal += venta.cantidadVendida;
                     productosTotalizados[i].sumaPrecio += venta.precioVenta;
                     productosTotalizados[i].cantidadVentas++;
@@ -125,7 +121,14 @@ public class Main {
             listaSalida.agregarVenta(pt.codigo, pt.cantidadTotal, precioPromedio);
         }
     }
-    
+
+    public static void ordenarPorCodigo(ListaVentas lista) {
+        Collections.sort(lista.ventas, new Comparator<Venta>() {
+            public int compare(Venta v1, Venta v2) {
+                return Integer.compare(v1.codigoProducto, v2.codigoProducto);
+            }
+        });
+    }
 
     public static void main(String[] args) {
 
@@ -138,8 +141,10 @@ public class Main {
         mostrarDatos(listaEntrada);
         
         sumaVentas(listaEntrada, listaSalida);
+
+        ordenarPorCodigo(listaSalida);
         
-        System.out.println("\nLISTA DE VENTAS TOTALIZADAS:");
+        System.out.println("\nLISTA DE VENTAS TOTALIZADAS (ORDENADA):");
         mostrarDatos(listaSalida);
     }
 }
